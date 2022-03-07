@@ -15,6 +15,6 @@ model Player {
   first_name  String
   last_name  String
   nationality  String
-  dob  Int
+  dob  String
   score  Int
 }
