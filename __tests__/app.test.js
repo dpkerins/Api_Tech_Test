@@ -1,4 +1,4 @@
-const app = require('../../app.js');
+const app = require('../app.js');
 const request = require('supertest');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -7,6 +7,7 @@ describe("/players", () => {
   beforeAll(() => {
     const dob = new Date(1990, 5, 14)
     const newPlayers = [{
+      id: 1,
       first_name: 'New',
       last_name: 'Guy',
       nationality: 'Germany',
@@ -14,7 +15,8 @@ describe("/players", () => {
       score: 1100,
       rank: "Bronze"
     },
-    {
+      {
+      id: 2,
       first_name: 'Another',
       last_name: 'Guy',
       nationality: 'China',
@@ -46,7 +48,8 @@ describe("/players", () => {
     })
   });
   afterAll(async () => {
-    await prisma.player.deleteMany({})
+    await prisma.match.deleteMany({});
+    await prisma.player.deleteMany({});
   });
   const dob = new Date(1990, 5, 14);
   const body = {
@@ -116,6 +119,27 @@ describe("/players", () => {
     const response = await request(app)
       .get('/players/Bronze')
     expect(response.body.length).toEqual(2);
+  })
+  
+  it("should add a new match", async () => {
+    const body = {
+      winnerId: 2,
+      loserId: 1
+    }
+    const matchResponse = await request(app)
+      .post('/matches/new')
+      .send(body)
+      .set('Accept', 'application/json')
+    const playerResponse = await prisma.player.findUnique({
+      where: {
+        id: 2
+      },
+      include: {
+        winners: true
+      }
+    })
+    expect(playerResponse.winners[0].winnerId).toEqual(2);
+    expect(matchResponse.body.winnerId).toEqual(2);
   })
 })
 
