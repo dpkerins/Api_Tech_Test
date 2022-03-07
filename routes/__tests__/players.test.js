@@ -111,6 +111,12 @@ describe("/players", () => {
     expect(response.body[0].score).toEqual(1500);
     expect(response.body[response.body.length - 1].score).toEqual(1200);
   })
+
+  it("should return all players with specific rank", async () => {
+    const response = await request(app)
+      .get('/players/Bronze')
+    expect(response.body.length).toEqual(2);
+  })
 })
 
 
