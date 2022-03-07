@@ -7,12 +7,12 @@ describe("/new", () => {
   beforeEach(async () => {
     await prisma.player.deleteMany({})
   })
-  const dob = new Date(1990, 5, 14)
+  const dob = new Date(1990, 5, 14);
   const body = {
     first_name: 'New',
     last_name: 'Guy',
     nationality: 'Germany',
-    dob: dob.toISOString()
+    dob: dob
   }
   it("should add a new player to the database", async () => {
     const response = await request(app)
@@ -38,8 +38,19 @@ describe("/new", () => {
     expect(responseDuplicate.body).toEqual("Cannot enter a new player with the same first and last names of an existing player");
   })
 
-  // it("should not allow player younger than 16 to be added", async () => {
-
-  // })
+  it("should not allow player younger than 16 to be added", async () => {
+    const dobYoung = new Date(2021, 11, 25);
+    const newBody = {
+      first_name: 'Young',
+      last_name: 'Person',
+      nationality: 'South Africa',
+      dob: dobYoung
+    }
+    const responseDuplicate = await request(app)
+      .post('/players/new')
+      .send(newBody)
+      .set('Accept', 'application/json')
+    expect(responseDuplicate.body).toEqual("Cannot enter a new player younger than 16");
+  })
 })
 
