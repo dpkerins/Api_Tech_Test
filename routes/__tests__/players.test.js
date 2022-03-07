@@ -3,7 +3,7 @@ const request = require('supertest');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-describe("/new", () => {
+describe("POST /new", () => {
   beforeEach(async () => {
     await prisma.player.deleteMany({})
   })
@@ -51,6 +51,37 @@ describe("/new", () => {
       .send(newBody)
       .set('Accept', 'application/json')
     expect(responseDuplicate.body).toEqual("Cannot enter a new player younger than 16");
+  })
+})
+
+describe("GET /", () => {
+  beforeEach(async () => {
+    const dob = new Date(1990, 5, 14)
+    const newPlayers = [{
+      first_name: 'New',
+      last_name: 'Guy',
+      nationality: 'Germany',
+      dob: dob,
+      score: 1200
+    },
+    {
+      first_name: 'Another',
+      last_name: 'Guy',
+      nationality: 'China',
+      dob: dob,
+      score: 1200
+    }
+    ];
+    newPlayers.forEach(async (player) => {
+      await prisma.player.create({
+        data: player
+      })
+    })
+  })
+  it("should return all players", async () => {
+    const response = await request(app)
+      .get('/players/')
+    expect(response.body.length).toEqual(2);
   })
 })
 

@@ -3,14 +3,14 @@ var router = express.Router();
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+
+router.get('/', async (req, res) => {
+  const allPlayers = await prisma.player.findMany();
+  res.json(allPlayers);
 });
 
 router.post('/new', async (req, res) => {
   const body = req.body;
-  console.log(body);
   const birthDate = new Date(body.dob);
   const today = new Date();
   const sixteenYearsAgo = new Date(today.getYear() + 1900 - 16, today.getMonth(), today.getDay());
@@ -27,7 +27,6 @@ router.post('/new', async (req, res) => {
       dob: body.dob,
       score: 1200
     }
-    console.log(data);
     const newPlayer = await prisma.player.create({
       data: data
     });
