@@ -11,10 +11,21 @@ datasource db {
 }
 
 model Player {
-  id    Int     @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   first_name  String
-  last_name  String
-  nationality  String
-  dob  String
-  score  Int
+  last_name   String
+  nationality String
+  dob         String
+  score       Int
+  winners     Match[] @relation("winners")
+  losers      Match[] @relation("losers")
 }
+
+model Match {
+  id       Int    @id @default(autoincrement())
+  winner   Player   @relation("winners", fields: [winnerId], references: [id])
+  winnerId Int
+  loser    Player   @relation("losers", fields: [loserId], references: [id])
+  loserId  Int
+}
+
