@@ -6,7 +6,12 @@ const prisma = new PrismaClient();
 
 router.get('/', async (req, res) => {
   const allPlayers = await prisma.player.findMany();
-  res.json(allPlayers);
+  const sortedPlayers = allPlayers.sort((a, b) => {
+    if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
+    if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
+    return b.score - a.score;
+  })
+  res.json(sortedPlayers);
 });
 
 router.post('/new', async (req, res) => {
@@ -25,7 +30,8 @@ router.post('/new', async (req, res) => {
       last_name: body.last_name,
       nationality: body.nationality,
       dob: body.dob,
-      score: 1200
+      score: 1200,
+      rank: "Unranked"
     }
     const newPlayer = await prisma.player.create({
       data: data

@@ -19,6 +19,7 @@ model Player {
   score       Int
   winners     Match[] @relation("winners")
   losers      Match[] @relation("losers")
+  rank        String
 }
 
 model Match {
