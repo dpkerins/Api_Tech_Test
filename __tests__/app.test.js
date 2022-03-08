@@ -1,8 +1,9 @@
-const app = require('../app.js');
+const app = require('../app');
 const request = require('supertest');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
-const calcNewScores = require('../calcNewScores.js');
+const calcNewScores = require('../calcNewScores');
+const calcNewRank = require('../calcNewRank');
 
 describe("/players", () => {
   beforeAll(() => {
@@ -162,4 +163,38 @@ describe('calcNewScores()', () => {
   })
 })
 
+describe('calcNewRank()', () => {
+  it("should return a player's new rank when they have played 3 matches", () => {
+    const player = {
+      score: 1100,
+      matches: [{}, {}]
+    }
+    const points = 100;
+    expect(calcNewRank(player, points)).toEqual("Bronze");
+  })
+  it("should return Unranked if player has played less than 3 matches", () => {
+    const player = {
+      score: 1100,
+      matches: [{}]
+    }
+    const points = 100;
+    expect(calcNewRank(player, points)).toEqual("Unranked");
+  })
+  it("should return players new rank if they gain enough points", () => {
+    const player = {
+      score: 4500,
+      matches: [{}, {}, {}]
+    }
+    const points = 600;
+    expect(calcNewRank(player, points)).toEqual("Gold");
+  })
+  it("should return players new rank if they lose enough points", () => {
+    const player = {
+      score: 3000,
+      matches: [{}, {}, {}]
+    }
+    const points = -500;
+    expect(calcNewRank(player, points)).toEqual("Bronze");
+  })
+})
 
