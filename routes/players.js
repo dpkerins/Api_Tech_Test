@@ -34,12 +34,8 @@ router.post('/new', async (req, res) => {
   const birthDate = new Date(body.dob);
   const today = new Date();
   const sixteenYearsAgo = new Date(today.getYear() + 1900 - 16, today.getMonth(), today.getDay());
-  const user = await prisma.player.findFirst({
-    where: { first_name: body.first_name, last_name: body.last_name },
-  })
+  if ((sixteenYearsAgo - birthDate) < 0) {return res.json("Cannot enter a new player younger than 16") }
   try {
-    if ((sixteenYearsAgo - birthDate) < 0) {throw "Cannot enter a new player younger than 16" }
-    if (user) { throw "Cannot enter a new player with the same first and last names of an existing player" }
     const data = {
       first_name: body.first_name,
       last_name: body.last_name,
@@ -53,7 +49,7 @@ router.post('/new', async (req, res) => {
     });
     res.json(newPlayer);
   } catch (e) {
-    res.json(e);
+    if (e.code == 'P2002') {return res.json("Cannot enter a new player with the same first and last names of an existing player")}
   }
   
 })

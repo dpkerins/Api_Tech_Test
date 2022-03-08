@@ -20,6 +20,8 @@ model Player {
   winners     Match[] @relation("winners")
   losers      Match[] @relation("losers")
   rank        String
+
+  @@unique([first_name, last_name])
 }
 
 model Match {
