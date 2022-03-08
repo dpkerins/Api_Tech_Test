@@ -5,27 +5,36 @@ const prisma = new PrismaClient();
 
 
 router.get('/', async (req, res) => {
-  const allPlayers = await prisma.player.findMany();
-  const sortedPlayers = allPlayers.sort((a, b) => {
-    if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
-    if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
-    return b.score - a.score;
-  })
-  res.json(sortedPlayers);
+  try {
+    const allPlayers = await prisma.player.findMany();
+    const sortedPlayers = allPlayers.sort((a, b) => {
+      if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
+      if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
+      return b.score - a.score;
+    })
+    res.json(sortedPlayers);
+  } catch (e) {
+    res.json(e);
+  }
+  
 });
 
 router.get('/:rank', async (req, res) => {
-  const allPlayers = await prisma.player.findMany({
-    where: {
-      rank: req.params.rank
-    }
-  });
-  const sortedPlayers = allPlayers.sort((a, b) => {
-    if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
-    if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
-    return b.score - a.score;
-  })
-  res.json(sortedPlayers);
+  try {
+    const allPlayers = await prisma.player.findMany({
+      where: {
+        rank: req.params.rank
+      }
+    });
+    const sortedPlayers = allPlayers.sort((a, b) => {
+      if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
+      if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
+      return b.score - a.score;
+    })
+    res.json(sortedPlayers);
+  } catch (e) {
+    res.json(e);
+  }
 });
 
 
