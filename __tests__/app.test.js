@@ -2,6 +2,7 @@ const app = require('../app.js');
 const request = require('supertest');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
+const calcNewScores = require('../calcNewScores.js');
 
 describe("/players", () => {
   beforeAll(() => {
@@ -130,7 +131,7 @@ describe("/players", () => {
       .post('/matches/new')
       .send(body)
       .set('Accept', 'application/json')
-    const playerResponse = await prisma.player.findUnique({
+    const winnerResponse = await prisma.player.findUnique({
       where: {
         id: 2
       },
@@ -138,8 +139,26 @@ describe("/players", () => {
         winners: true
       }
     })
-    expect(playerResponse.winners[0].winnerId).toEqual(2);
+    const loserResponse = await prisma.player.findUnique({
+      where: {
+        id: 1
+      },
+      include: {
+        losers: true
+      }
+    })
+    expect(winnerResponse.score).toEqual(1610);
+    expect(winnerResponse.winners.length).toEqual(1);
+    expect(loserResponse.score).toEqual(990);
+    expect(loserResponse.losers.length).toEqual(1);
     expect(matchResponse.body.winnerId).toEqual(2);
+  })
+})
+
+describe('calcNewScores()', () => {
+  it("should return ten percent of loser's previous score", () => {
+    const loserPoints = 900;
+    expect(calcNewScores(loserPoints)).toEqual(90);
   })
 })
 
