@@ -15,7 +15,7 @@ describe("/players", () => {
       nationality: 'Germany',
       dob: dob,
       score: 1100,
-      rank: "Bronze"
+      rank: "Unranked"
     },
       {
       id: 2,
@@ -24,23 +24,28 @@ describe("/players", () => {
       nationality: 'China',
       dob: dob,
       score: 1500,
-      rank: "Bronze"
+      rank: "Unranked", 
+      losers: {
+        create: [
+          { winnerId: 1},
+          {winnerId: 1}
+      ]}
     },
     {
       first_name: 'Third',
       last_name: 'Guy',
       nationality: 'China',
       dob: dob,
-      score: 1300,
-      rank: "Unranked"
+      score: 900,
+      rank: "Bronze"
     },
     {
       first_name: 'Fourth',
       last_name: 'Guy',
       nationality: 'China',
       dob: dob,
-      score: 1700,
-      rank: "Unranked"
+      score: 1200,
+      rank: "Bronze"
     }
     ];
     newPlayers.forEach(async (player) => {
@@ -108,13 +113,13 @@ describe("/players", () => {
   it("should return all players in descending point order", async () => {
     const response = await request(app)
       .get('/players/')
-    expect(response.body[0].score).toEqual(1500);
+    expect(response.body[0].score).toEqual(1200);
   })
   it("should return all players in descending point order with unranked at end", async () => {
     const response = await request(app)
       .get('/players/')
-    expect(response.body[0].score).toEqual(1500);
-    expect(response.body[response.body.length - 1].score).toEqual(1200);
+    expect(response.body[0].score).toEqual(1200);
+    expect(response.body[response.body.length - 1].score).toEqual(1100);
   })
 
   it("should return all players with specific rank", async () => {
@@ -150,6 +155,7 @@ describe("/players", () => {
     })
     expect(winnerResponse.score).toEqual(1610);
     expect(winnerResponse.winners.length).toEqual(1);
+    expect(winnerResponse.rank).toEqual("Bronze");
     expect(loserResponse.score).toEqual(990);
     expect(loserResponse.losers.length).toEqual(1);
     expect(matchResponse.body.winnerId).toEqual(2);
@@ -158,8 +164,12 @@ describe("/players", () => {
 
 describe('calcNewScores()', () => {
   it("should return ten percent of loser's previous score", () => {
-    const loserPoints = 900;
-    expect(calcNewScores(loserPoints)).toEqual(90);
+    const loser = { score: 900 };
+    const winner = {score: 1200};
+    expect(calcNewScores(winner, loser)).toEqual({
+      winnerPoints: 1290,
+      loserPoints: 810
+    });
   })
 })
 
@@ -167,7 +177,8 @@ describe('calcNewRank()', () => {
   it("should return a player's new rank when they have played 3 matches", () => {
     const player = {
       score: 1100,
-      matches: [{}, {}]
+      winners: [{}, {}, {}],
+      losers: []
     }
     const points = 100;
     expect(calcNewRank(player, points)).toEqual("Bronze");
@@ -175,7 +186,8 @@ describe('calcNewRank()', () => {
   it("should return Unranked if player has played less than 3 matches", () => {
     const player = {
       score: 1100,
-      matches: [{}]
+      winners: [{}, {}],
+      losers: []
     }
     const points = 100;
     expect(calcNewRank(player, points)).toEqual("Unranked");
@@ -183,17 +195,19 @@ describe('calcNewRank()', () => {
   it("should return players new rank if they gain enough points", () => {
     const player = {
       score: 4500,
-      matches: [{}, {}, {}]
+      winners: [{}, {}, {}],
+      losers: []
     }
-    const points = 600;
+    const points = 5100;
     expect(calcNewRank(player, points)).toEqual("Gold");
   })
   it("should return players new rank if they lose enough points", () => {
     const player = {
       score: 3000,
-      matches: [{}, {}, {}]
+      winners: [{}, {}, {}],
+      losers: []
     }
-    const points = -500;
+    const points = 2500;
     expect(calcNewRank(player, points)).toEqual("Bronze");
   })
 })
