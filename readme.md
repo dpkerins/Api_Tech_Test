@@ -11,24 +11,54 @@ Example Response:
 
 [
     {
-        "id": 1106,
-        "first_name": "Another",
-        "last_name": "Person",
-        "nationality": "Germany",
-        "dob": "1985-10-11T23:00:00.000Z",
-        "score": 1200,
-        "rank": "Unranked",
-        "rankedPosition": 1
-    },
-    {
-        "id": 1107,
-        "first_name": "Some",
+        "id": 1114,
+        "first_name": "First",
         "last_name": "Person",
         "nationality": "Zimbabwe",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 1200,
-        "rank": "Unranked",
+        "score": 3037,
+        "rank": "Silver",
+        "rankedPosition": 1
+    },
+    {
+        "id": 1115,
+        "first_name": "Second",
+        "last_name": "Person",
+        "nationality": "Zimbabwe",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 1235,
+        "rank": "Bronze",
         "rankedPosition": 2
+    },
+    {
+        "id": 1116,
+        "first_name": "Third",
+        "last_name": "Person",
+        "nationality": "Zimbabwe",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 576,
+        "rank": "Bronze",
+        "rankedPosition": 3
+    },
+    {
+        "id": 1117,
+        "first_name": "Fourth",
+        "last_name": "Person",
+        "nationality": "Zimbabwe",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 576,
+        "rank": "Bronze",
+        "rankedPosition": 4
+    },
+    {
+        "id": 1118,
+        "first_name": "Fifth",
+        "last_name": "Person",
+        "nationality": "Zimbabwe",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 576,
+        "rank": "Bronze",
+        "rankedPosition": 5
     }
 ]
 
