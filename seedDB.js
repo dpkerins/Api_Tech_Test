@@ -1,7 +1,7 @@
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const seedDB =() => {
+const seedDB = () => {
   const dob = new Date(1990, 5, 14)
   const newPlayers = [{
     id: 1,
@@ -19,12 +19,13 @@ const seedDB =() => {
     nationality: 'China',
     dob: dob,
     score: 1500,
-    rank: "Unranked", 
-    losers: {
-      create: [
-        { winnerId: 1},
-        {winnerId: 1}
-    ]}
+    rank: "Unranked"
+    // rank: "Unranked", 
+    // losers: {
+    //   create: [
+    //     { winnerId: 1},
+    //     {winnerId: 1}
+    // ]}
   },
   {
     first_name: 'Third',
@@ -44,7 +45,7 @@ const seedDB =() => {
   }
   ];
   newPlayers.forEach(async (player) => {
-    await prisma.player.create({
+    const newPlayer = await prisma.player.create({
       data: player
     })
   })

@@ -7,13 +7,86 @@ const calcNewRank = require('../calcNewRank');
 const seedDB = require('../seedDB');
 
 describe("/players", () => {
-  beforeAll(() => {
-    seedDB();
-  });
-  afterAll( async () => {
-    await prisma.match.deleteMany({});
-    await prisma.player.deleteMany({});
-  });
+  afterAll(async () => {
+    const deleteMatches = await prisma.match.deleteMany({});
+    const deletePlayers = await prisma.player.deleteMany({});
+  })
+  it("should return all players", async () => {
+    const dob = new Date(1990, 5, 14)
+    let newPlayers = [{
+      id: 1,
+      first_name: 'New',
+      last_name: 'Guy',
+      nationality: 'Germany',
+      dob: dob,
+      score: 1100,
+      rank: "Unranked"
+    },
+      {
+      id: 2,
+      first_name: 'Another',
+      last_name: 'Guy',
+      nationality: 'China',
+      dob: dob,
+      score: 1500,
+      rank: "Unranked", 
+      losers: {
+        create: [
+          { winnerId: 1},
+          {winnerId: 1}
+      ]}
+    },
+    {
+      first_name: 'Third',
+      last_name: 'Guy',
+      nationality: 'China',
+      dob: dob,
+      score: 900,
+      rank: "Bronze"
+    },
+    {
+      first_name: 'Fourth',
+      last_name: 'Guy',
+      nationality: 'China',
+      dob: dob,
+      score: 1200,
+      rank: "Bronze"
+    }
+    ];
+    let newPlayer = await prisma.player.create({
+      data: newPlayers[0]
+    })
+    newPlayer = await prisma.player.create({
+      data: newPlayers[1]
+    })
+    newPlayer = await prisma.player.create({
+      data: newPlayers[2]
+    })
+    newPlayer = await prisma.player.create({
+      data: newPlayers[3]
+    })
+    const response = await request(app)
+      .get('/players/')
+    expect(response.body.length).toEqual(4);
+  })
+  it("should return all players in descending point order", async () => {
+    const response = await request(app)
+      .get('/players/')
+    expect(response.body[0].score).toEqual(1200);
+  })
+  it("should return all players in descending point order with unranked at end", async () => {
+    const response = await request(app)
+      .get('/players/')
+    expect(response.body[0].score).toEqual(1200);
+    expect(response.body[response.body.length - 1].score).toEqual(1100);
+  })
+
+  it("should return all players with specific rank", async () => {
+    const response = await request(app)
+      .get('/players/Bronze')
+    expect(response.body.length).toEqual(2);
+  })
+
   it("should add a new player to the database", async () => {
     const dob = new Date(1990, 5, 14);
     const body = {
@@ -66,29 +139,6 @@ describe("/players", () => {
       .send(newBody)
       .set('Accept', 'application/json')
     expect(responseDuplicate.body).toEqual("Cannot enter a new player younger than 16");
-  })
-
-  it("should return all players", async () => {
-    const response = await request(app)
-      .get('/players/')
-    expect(response.body.length).toEqual(5);
-  })
-  it("should return all players in descending point order", async () => {
-    const response = await request(app)
-      .get('/players/')
-    expect(response.body[0].score).toEqual(1200);
-  })
-  it("should return all players in descending point order with unranked at end", async () => {
-    const response = await request(app)
-      .get('/players/')
-    expect(response.body[0].score).toEqual(1200);
-    expect(response.body[response.body.length - 1].score).toEqual(1100);
-  })
-
-  it("should return all players with specific rank", async () => {
-    const response = await request(app)
-      .get('/players/Bronze')
-    expect(response.body.length).toEqual(2);
   })
   
   it("should add a new match", async () => {
