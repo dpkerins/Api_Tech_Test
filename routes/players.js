@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     })
     sortedPlayers.forEach((player, idx) => {
       player.rankedPosition = idx + 1;
-      player.age = calcAge(newPlayer.dob);
+      player.age = calcAge(player.dob);
     })
     const filteredPlayers = sortedPlayers.filter((player) => {
       return (player.rank == rank || rank == undefined) &&  (player.nationality == nationality || nationality == undefined)

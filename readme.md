@@ -24,54 +24,59 @@ Example Response:
 
 [
     {
-        "id": 1114,
-        "first_name": "First",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "id": 2,
+        "first_name": "Another",
+        "last_name": "Guy",
+        "nationality": "China",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 3037,
-        "rank": "Silver",
-        "rankedPosition": 1
-    },
-    {
-        "id": 1115,
-        "first_name": "Second",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
-        "dob": "1990-06-13T23:00:00.000Z",
-        "score": 1235,
+        "score": 1610,
         "rank": "Bronze",
-        "rankedPosition": 2
+        "rankedPosition": 1,
+        "age": 31
     },
     {
-        "id": 1116,
-        "first_name": "Third",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
-        "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
-        "rank": "Bronze",
-        "rankedPosition": 3
-    },
-    {
-        "id": 1117,
+        "id": 40,
         "first_name": "Fourth",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "last_name": "Guy",
+        "nationality": "Albania",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
+        "score": 1200,
         "rank": "Bronze",
-        "rankedPosition": 4
+        "rankedPosition": 2,
+        "age": 31
     },
     {
-        "id": 1118,
-        "first_name": "Fifth",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "id": 1,
+        "first_name": "New",
+        "last_name": "Guy",
+        "nationality": "Germany",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
+        "score": 990,
         "rank": "Bronze",
-        "rankedPosition": 5
+        "rankedPosition": 3,
+        "age": 31
+    },
+    {
+        "id": 39,
+        "first_name": "Third",
+        "last_name": "Guy",
+        "nationality": "China",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 900,
+        "rank": "Bronze",
+        "rankedPosition": 4,
+        "age": 31
+    },
+    {
+        "id": 41,
+        "first_name": "First",
+        "last_name": "Guy",
+        "nationality": "Germany",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 1200,
+        "rank": "Unranked",
+        "rankedPosition": 5,
+        "age": 31
     }
 ]
 
@@ -87,44 +92,48 @@ Example Response:
 
 [
     {
-        "id": 1115,
-        "first_name": "Second",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "id": 2,
+        "first_name": "Another",
+        "last_name": "Guy",
+        "nationality": "China",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 1235,
+        "score": 1610,
         "rank": "Bronze",
-        "rankedPosition": 2
+        "rankedPosition": 1,
+        "age": 31
     },
     {
-        "id": 1116,
-        "first_name": "Third",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
-        "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
-        "rank": "Bronze",
-        "rankedPosition": 3
-    },
-    {
-        "id": 1117,
+        "id": 40,
         "first_name": "Fourth",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "last_name": "Guy",
+        "nationality": "Albania",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
+        "score": 1200,
         "rank": "Bronze",
-        "rankedPosition": 4
+        "rankedPosition": 2,
+        "age": 31
     },
     {
-        "id": 1118,
-        "first_name": "Fifth",
-        "last_name": "Person",
-        "nationality": "Zimbabwe",
+        "id": 1,
+        "first_name": "New",
+        "last_name": "Guy",
+        "nationality": "Germany",
         "dob": "1990-06-13T23:00:00.000Z",
-        "score": 576,
+        "score": 990,
         "rank": "Bronze",
-        "rankedPosition": 5
+        "rankedPosition": 3,
+        "age": 31
+    },
+    {
+        "id": 39,
+        "first_name": "Third",
+        "last_name": "Guy",
+        "nationality": "China",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 900,
+        "rank": "Bronze",
+        "rankedPosition": 4,
+        "age": 31
     }
 ]
 
