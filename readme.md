@@ -1,6 +1,15 @@
-# Testing with Jest
+# General
 
-Run "npm run test" to run tests
+* API was built with Javascript, Express, Prisma (ORM), and Jest (Testing)
+
+### To run code
+
+* Run 'npm install' to install dependencies
+* Run 'npm start' to run API on server at http://localhost:5000
+
+### Testing with Jest
+
+* Run "npm run test" to run tests
 
 # Endpoints
 
