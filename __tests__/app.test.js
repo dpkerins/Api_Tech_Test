@@ -45,7 +45,7 @@ describe("routes", () => {
     {
       first_name: 'Fourth',
       last_name: 'Guy',
-      nationality: 'China',
+      nationality: 'Albania',
       dob: dob,
       score: 1200,
       rank: "Bronze"
@@ -81,8 +81,20 @@ describe("routes", () => {
 
   it("should return all players with specific rank", async () => {
     const response = await request(app)
-      .get('/players/Bronze')
+      .get('/players?rank=Bronze')
     expect(response.body.length).toEqual(2);
+  })
+
+  it("should return all players with specific nationality", async () => {
+    const response = await request(app)
+      .get('/players?nationality=China')
+    expect(response.body.length).toEqual(2);
+  })
+
+  it("should return all players with specific nationality and specific rank", async () => {
+    const response = await request(app)
+      .get('/players?rank=Bronze&nationality=China')
+    expect(response.body.length).toEqual(1);
   })
 
   it("should add a new player to the database", async () => {

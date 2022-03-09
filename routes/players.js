@@ -7,25 +7,8 @@ const calcAge = require('../helpers/calcAge');
 
 router.get('/', async (req, res) => {
   try {
-    const allPlayers = await prisma.player.findMany();
-    const sortedPlayers = allPlayers.sort((a, b) => {
-      if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
-      if (a.rank != b.rank && b.rank == "Unranked") { return -1 };
-      return b.score - a.score;
-    })
-    sortedPlayers.forEach((player, idx) => {
-      player.rankedPosition = idx + 1
-    })
-    res.json(sortedPlayers);
-  } catch (e) {
-    res.json(e);
-  }
-  
-});
-
-router.get('/:rank', async (req, res) => {
-  try {
-    const rank = req.params.rank;
+    const rank = req.query.rank;
+    const nationality = req.query.nationality;
     const allPlayers = await prisma.player.findMany();
     const sortedPlayers = allPlayers.sort((a, b) => {
       if (a.rank != b.rank && a.rank == "Unranked") { return 1 };
@@ -36,14 +19,14 @@ router.get('/:rank', async (req, res) => {
       player.rankedPosition = idx + 1
     })
     const filteredPlayers = sortedPlayers.filter((player) => {
-      return player.rank == rank
+      return (player.rank == rank || rank == undefined) &&  (player.nationality == nationality || nationality == undefined)
     })
     res.json(filteredPlayers);
   } catch (e) {
     res.json(e);
   }
+  
 });
-
 
 router.post('/new', async (req, res) => {
   const body = req.body;
