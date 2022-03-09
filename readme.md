@@ -1,6 +1,6 @@
 # General
 
-* API was built with Javascript, Express, Prisma (ORM), and Jest (Testing)
+* API was built with Javascript, Express, SQLite, Prisma (ORM), and Jest (Testing)
 
 ### To run code
 
