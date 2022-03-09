@@ -77,10 +77,11 @@ Example Response:
 
 ```
 
-Viewing players by rank
+Viewing players by rank and/or nationality
 
 ```
-GET https://localhost:5000/players/:rank
+GET https://localhost:5000/players?rank=[]&nationality=[]
+*can include either or both rank and nationality
 
 Example Response:
 
