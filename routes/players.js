@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
+const calcAge = require('../helpers/calcAge');
 
 
 router.get('/', async (req, res) => {
@@ -46,10 +47,8 @@ router.get('/:rank', async (req, res) => {
 
 router.post('/new', async (req, res) => {
   const body = req.body;
-  const birthDate = new Date(body.dob);
-  const today = new Date();
-  const sixteenYearsAgo = new Date(today.getYear() + 1900 - 16, today.getMonth(), today.getDay());
-  if ((sixteenYearsAgo - birthDate) < 0) {return res.json("Cannot enter a new player younger than 16") }
+  const age = calcAge(body.dob);
+  if (age < 16) {return res.json("Cannot enter a new player younger than 16") }
   try {
     const data = {
       first_name: body.first_name,
@@ -62,6 +61,7 @@ router.post('/new', async (req, res) => {
     const newPlayer = await prisma.player.create({
       data: data
     });
+    newPlayer.age = calcAge(newPlayer.dob);
     res.json(newPlayer);
   } catch (e) {
     if (e.code == 'P2002') {return res.json("Cannot enter a new player with the same first and last names of an existing player")}

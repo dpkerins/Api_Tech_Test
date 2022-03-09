@@ -4,6 +4,7 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 const calcNewScores = require('../helpers/calcNewScores');
 const calcNewRank = require('../helpers/calcNewRank');
+const calcAge = require('../helpers/calcAge');
 
 describe("routes", () => {
   it("should return all players", async () => {
@@ -102,6 +103,7 @@ describe("routes", () => {
     expect(response.body.dob).toEqual("1990-06-13T23:00:00.000Z");
     expect(response.body.nationality).toEqual("Germany");
     expect(response.body.rank).toEqual("Unranked");
+    expect(response.body.age).toEqual(31);
   })
 
   it("should not allow duplicate player (same first and last name)", async () => {
@@ -169,6 +171,12 @@ describe("routes", () => {
     expect(loserResponse.score).toEqual(990);
     expect(loserResponse.losers.length).toEqual(1);
     expect(matchResponse.body.winnerId).toEqual(2);
+  })
+})
+
+describe('calcAge', () => {
+  it("should return age from date of birth string", () => {
+    expect(calcAge('1990-06-13T23:00:00.000Z')).toEqual(31);
   })
 })
 
