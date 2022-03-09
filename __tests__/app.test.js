@@ -7,11 +7,9 @@ const calcNewRank = require('../calcNewRank');
 const seedDB = require('../seedDB');
 
 describe("/players", () => {
-  afterAll(async () => {
+  it("should return all players", async () => {
     const deleteMatches = await prisma.match.deleteMany({});
     const deletePlayers = await prisma.player.deleteMany({});
-  })
-  it("should return all players", async () => {
     const dob = new Date(1990, 5, 14)
     let newPlayers = [{
       id: 1,
