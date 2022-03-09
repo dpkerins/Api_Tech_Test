@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
-const calcNewScores = require('../calcNewScores.js');
-const calcNewRank = require('../calcNewRank');
+const calcNewScores = require('../helpers/calcNewScores.js');
+const calcNewRank = require('../helpers/calcNewRank');
 
 router.post('/new', async (req, res) => {
   try { 

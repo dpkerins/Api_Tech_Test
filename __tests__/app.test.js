@@ -2,11 +2,10 @@ const app = require('../app');
 const request = require('supertest');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
-const calcNewScores = require('../calcNewScores');
-const calcNewRank = require('../calcNewRank');
-const seedDB = require('../seedDB');
+const calcNewScores = require('../helpers/calcNewScores');
+const calcNewRank = require('../helpers/calcNewRank');
 
-describe("/players", () => {
+describe("routes", () => {
   it("should return all players", async () => {
     const deleteMatches = await prisma.match.deleteMany({});
     const deletePlayers = await prisma.player.deleteMany({});

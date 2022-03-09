@@ -1,3 +1,7 @@
+# Testing with Jest
+
+Run "npm run test" to run tests
+
 # Endpoints
 
 ### Players
