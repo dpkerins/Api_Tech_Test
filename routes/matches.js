@@ -21,6 +21,9 @@ router.post('/new', async (req, res) => {
       data: {
         score: newScores.winnerPoints,
         rank: calcNewRank(winner, newScores.winnerPoints)
+      }, include: {
+        winners: true,
+        losers: true
       }
     })
     const updateLoser = await prisma.player.update({
@@ -30,8 +33,13 @@ router.post('/new', async (req, res) => {
       data: {
         score: newScores.loserPoints,
         rank: calcNewRank(loser, newScores.loserPoints)
+      }, include: {
+        winners: true,
+        losers: true
       }
     })
+    newMatch.winner = updateWinner;
+    newMatch.loser = updateLoser;
     res.json(newMatch);
   } catch (e) {
     res.json(e)

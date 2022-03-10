@@ -6,7 +6,7 @@ const calcNewScores = require('../helpers/calcNewScores');
 const calcNewRank = require('../helpers/calcNewRank');
 const calcAge = require('../helpers/calcAge');
 
-describe("routes", () => {
+describe("/players/", () => {
   it("should return all players", async () => {
     const deleteMatches = await prisma.match.deleteMany({});
     const deletePlayers = await prisma.player.deleteMany({});
@@ -151,7 +151,8 @@ describe("routes", () => {
       .set('Accept', 'application/json')
     expect(responseDuplicate.body).toEqual("Cannot enter a new player younger than 16");
   })
-  
+})
+describe("/matches/", () => {
   it("should add a new match", async () => {
     const body = {
       winnerId: 2,
@@ -161,27 +162,12 @@ describe("routes", () => {
       .post('/matches/new')
       .send(body)
       .set('Accept', 'application/json')
-    const winnerResponse = await prisma.player.findUnique({
-      where: {
-        id: 2
-      },
-      include: {
-        winners: true
-      }
-    })
-    const loserResponse = await prisma.player.findUnique({
-      where: {
-        id: 1
-      },
-      include: {
-        losers: true
-      }
-    })
-    expect(winnerResponse.score).toEqual(1610);
-    expect(winnerResponse.winners.length).toEqual(1);
-    expect(winnerResponse.rank).toEqual("Bronze");
-    expect(loserResponse.score).toEqual(990);
-    expect(loserResponse.losers.length).toEqual(1);
+    console.log(matchResponse);
+    expect(matchResponse.body.winner.score).toEqual(1610);
+    expect(matchResponse.body.winner.winners.length).toEqual(1);
+    expect(matchResponse.body.winner.rank).toEqual("Bronze");
+    expect(matchResponse.body.loser.score).toEqual(990);
+    expect(matchResponse.body.loser.losers.length).toEqual(1);
     expect(matchResponse.body.winnerId).toEqual(2);
   })
 })
