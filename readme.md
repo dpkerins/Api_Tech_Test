@@ -178,9 +178,75 @@ body: {
 Example Response: 
 
 {
-    "id": 420,
-    "winnerId": 1106,
-    "loserId": 1107
+    "id": 54,
+    "winnerId": 1,
+    "loserId": 2,
+    "winner": {
+        "id": 1,
+        "first_name": "New",
+        "last_name": "Guy",
+        "nationality": "Germany",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 1151,
+        "rank": "Bronze",
+        "winners": [
+            {
+                "id": 51,
+                "winnerId": 1,
+                "loserId": 2
+            },
+            {
+                "id": 52,
+                "winnerId": 1,
+                "loserId": 2
+            },
+            {
+                "id": 54,
+                "winnerId": 1,
+                "loserId": 2
+            }
+        ],
+        "losers": [
+            {
+                "id": 53,
+                "winnerId": 2,
+                "loserId": 1
+            }
+        ]
+    },
+    "loser": {
+        "id": 2,
+        "first_name": "Another",
+        "last_name": "Guy",
+        "nationality": "China",
+        "dob": "1990-06-13T23:00:00.000Z",
+        "score": 1449,
+        "rank": "Bronze",
+        "winners": [
+            {
+                "id": 53,
+                "winnerId": 2,
+                "loserId": 1
+            }
+        ],
+        "losers": [
+            {
+                "id": 51,
+                "winnerId": 1,
+                "loserId": 2
+            },
+            {
+                "id": 52,
+                "winnerId": 1,
+                "loserId": 2
+            },
+            {
+                "id": 54,
+                "winnerId": 1,
+                "loserId": 2
+            }
+        ]
+    }
 }
 
 ```
