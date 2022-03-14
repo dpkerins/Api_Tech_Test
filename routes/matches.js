@@ -9,14 +9,17 @@ router.post('/new', async (req, res) => {
   try { 
     const data = req.body;
     const newMatch = await prisma.match.create({
-      data: data
+      data: {
+        winnerId: parseInt(data.winnerId),
+        loserId: parseInt(data.loserId)
+      }
     })
-    const loser = await prisma.player.findUnique({ where: { id: data.loserId }, include: { winners: true, losers: true } });
-    const winner = await prisma.player.findUnique({ where: { id: data.winnerId }, include: { winners: true, losers: true } });
+    const loser = await prisma.player.findUnique({ where: { id: newMatch.loserId }, include: { winners: true, losers: true } });
+    const winner = await prisma.player.findUnique({ where: { id: newMatch.winnerId }, include: { winners: true, losers: true } });
     const newScores = calcNewScores(winner, loser);
     const updateWinner = await prisma.player.update({
       where: {
-        id: data.winnerId
+        id: newMatch.winnerId
       },
       data: {
         score: newScores.winnerPoints,
@@ -28,7 +31,7 @@ router.post('/new', async (req, res) => {
     })
     const updateLoser = await prisma.player.update({
       where: {
-        id: data.loserId
+        id: newMatch.loserId
       }, 
       data: {
         score: newScores.loserPoints,

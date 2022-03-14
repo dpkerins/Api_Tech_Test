@@ -6,6 +6,12 @@ const calcNewScores = require('../helpers/calcNewScores');
 const calcNewRank = require('../helpers/calcNewRank');
 const calcAge = require('../helpers/calcAge');
 
+afterAll(async () => {
+  const deleteMatches = await prisma.match.deleteMany({});
+  const deletePlayers = await prisma.player.deleteMany({});
+  const deleteSequencing = await prisma.$executeRaw`DELETE FROM "sqlite_sequence"`;
+})
+
 describe("/players/", () => {
   it("should return all players", async () => {
     const deleteMatches = await prisma.match.deleteMany({});
@@ -162,7 +168,6 @@ describe("/matches/", () => {
       .post('/matches/new')
       .send(body)
       .set('Accept', 'application/json')
-    console.log(matchResponse);
     expect(matchResponse.body.winner.score).toEqual(1610);
     expect(matchResponse.body.winner.winners.length).toEqual(1);
     expect(matchResponse.body.winner.rank).toEqual("Bronze");
